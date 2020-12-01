@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import './widgets/user-transaction.dart';
-import './models/transaction.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,19 +14,30 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           title: Text('Cent'),
+          actions: [
+            IconButton(
+                icon: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+                onPressed: null)
+          ],
         ),
         body: Container(
-          padding: EdgeInsets.all(10),
           child: Column(
             children: [
-              Card(
-                elevation: 5,
-                child: Container(
-                  height: 200,
-                  width: double.infinity,
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Card(
+                  elevation: 5,
+                  child: Container(
+                    height: 200,
+                    width: double.infinity,
+                  ),
                 ),
               ),
               UserTransaction(),

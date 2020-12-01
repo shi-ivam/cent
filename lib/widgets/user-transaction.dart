@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'add-transaction.dart';
@@ -25,10 +23,13 @@ class _UserTransactionState extends State<UserTransaction> {
     setState(() {
       transactions.add(Transaction(
           id: 11,
-          amount: double.parse(valueController.text),
+          amount: double.parse(valueController.text.toString()),
           date: DateTime.now(),
           name: nameController.text.toString()));
     });
+
+    this.nameController.clear();
+    this.valueController.clear();
   }
 
   @override
@@ -36,16 +37,19 @@ class _UserTransactionState extends State<UserTransaction> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Card(
-          elevation: 5,
-          child: Container(
-            padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-            child: Add(nameController, valueController, addTransaction),
+        Container(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: Card(
+            elevation: 5,
+            child: Container(
+              padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
+              child: Add(nameController, valueController, addTransaction),
+            ),
           ),
         ),
         Container(
-          height: 294,
-          child: SingleChildScrollView(child: Transactions(this.transactions)),
+          height: 304,
+          child: Transactions(this.transactions),
         )
       ],
     );

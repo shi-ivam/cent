@@ -5,6 +5,16 @@ class Add extends StatelessWidget {
   final valueController;
   final Function addFunc;
   Add(this.nameController, this.valueController, this.addFunc);
+
+  void handleSubmit() {
+    if (this.nameController.text.toString().isEmpty ||
+        double.parse(this.valueController.text.toString()) <= 0) {
+      return;
+    }
+
+    addFunc();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -13,18 +23,21 @@ class Add extends StatelessWidget {
         TextField(
           decoration: InputDecoration(labelText: "Name"),
           controller: this.nameController,
+          keyboardType: TextInputType.text,
+          onSubmitted: (_) => handleSubmit(),
         ),
         TextField(
           decoration: InputDecoration(labelText: "Value"),
           controller: this.valueController,
+          keyboardType: TextInputType.numberWithOptions(decimal: true),
+          onSubmitted: (_) => handleSubmit(),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
           child: Container(
             child: FlatButton(
-              color: Colors.black26,
               onPressed: () {
-                addFunc();
+                handleSubmit();
               },
               child: Text(
                 'Add Transaction',

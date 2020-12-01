@@ -8,73 +8,72 @@ class Transactions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ...(this.transactions.map(
-              (e) => Card(
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+    return ListView.builder(
+      padding: EdgeInsets.fromLTRB(10, 10, 10, 20),
+      itemBuilder: (ctx, index) {
+        return Card(
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      child: Text(
+                        '\$' +
+                            this.transactions[index].amount.toStringAsFixed(2),
+                        style: TextStyle(
+                            fontSize: 28, fontWeight: FontWeight.w300),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Container(
+                          Text(
+                            this.transactions[index].name.toString(),
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.w300),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 3, 0, 0),
                             child: Text(
-                              '\$' + e.amount.toString(),
+                              DateFormat('MMM dd, yyyy')
+                                  .format(this.transactions[index].date),
                               style: TextStyle(
-                                  fontSize: 28, fontWeight: FontWeight.w300),
+                                  fontSize: 15, fontWeight: FontWeight.w300),
                             ),
                           ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  e.name.toString(),
-                                  style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w300),
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 3, 0, 0),
-                                  child: Text(
-                                    DateFormat('MMM dd, yyyy').format(e.date),
-                                    style: TextStyle(
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w300),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
                         ],
                       ),
-                      Container(
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.black,
-                            size: 30,
-                          ),
-                          onPressed: null,
-                          padding: EdgeInsets.zero,
-                        ),
-                      )
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-                elevation: 5,
-              ),
-            ))
-      ],
+                Container(
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.black,
+                      size: 30,
+                    ),
+                    onPressed: null,
+                    padding: EdgeInsets.zero,
+                  ),
+                )
+              ],
+            ),
+          ),
+          elevation: 5,
+        );
+      },
+      itemCount: this.transactions.length,
     );
   }
 }
