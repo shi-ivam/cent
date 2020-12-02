@@ -17,36 +17,44 @@ class Add extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        TextField(
-          decoration: InputDecoration(labelText: "Name"),
-          controller: this.nameController,
-          keyboardType: TextInputType.text,
-          onSubmitted: (_) => handleSubmit(),
-        ),
-        TextField(
-          decoration: InputDecoration(labelText: "Value"),
-          controller: this.valueController,
-          keyboardType: TextInputType.numberWithOptions(decimal: true),
-          onSubmitted: (_) => handleSubmit(),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-          child: Container(
-            child: FlatButton(
-              onPressed: () {
-                handleSubmit();
-              },
-              child: Text(
-                'Add Transaction',
-                style: TextStyle(color: Colors.blue[400], fontSize: 17),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          TextField(
+            decoration: InputDecoration(labelText: "Name"),
+            controller: this.nameController,
+            keyboardType: TextInputType.text,
+            style: TextStyle(fontSize: 20),
+            onSubmitted: (_) => handleSubmit(),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: TextField(
+              decoration: InputDecoration(labelText: "Value"),
+              controller: this.valueController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              style: TextStyle(fontSize: 20),
+              onSubmitted: (_) => handleSubmit(),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+            child: Container(
+              child: FlatButton(
+                onPressed: () {
+                  handleSubmit();
+                },
+                child: Text(
+                  'Add Transaction',
+                  style: TextStyle(color: Colors.blue[400], fontSize: 17),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
