@@ -3,6 +3,7 @@ import './widgets/user-transaction.dart';
 import './widgets/add-transaction.dart';
 import './models/transaction.dart';
 import './widgets/chart-bar.dart';
+import 'package:intl/intl.dart';
 
 void main() {
   runApp(Wrapper());
@@ -29,6 +30,14 @@ class Wrapper extends StatelessWidget {
   }
 }
 
+// Some Required Class
+class DateTrans {
+  final DateTime date;
+  final double transactions;
+  DateTrans(this.date, this.transactions);
+}
+
+// Actual Main Page
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -37,20 +46,69 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final nameController = TextEditingController();
   final valueController = TextEditingController();
+  var lastWeekTotal;
+  var sevenDaysTrans;
+  var pickedDate = new DateTime.now();
 
   final List<Transaction> transactions = [
-    Transaction(id: 1, amount: 129.53, date: DateTime.now(), name: "Fuel"),
-    Transaction(id: 1, amount: 19.99, date: DateTime.now(), name: "Biscuits"),
-    Transaction(id: 1, amount: 100.99, date: DateTime.now(), name: "Games"),
-    Transaction(id: 1, amount: 1300.00, date: DateTime.now(), name: "Rent"),
+    Transaction(
+        id: 1,
+        amount: 19.53,
+        date: DateTime.now().subtract(Duration(days: 0)),
+        name: "Fuel"),
+    Transaction(
+        id: 2,
+        amount: 19.99,
+        date: DateTime.now().subtract(Duration(days: 1)),
+        name: "Biscuits"),
+    Transaction(
+        id: 3,
+        amount: 11.99,
+        date: DateTime.now().subtract(Duration(days: 2)),
+        name: "Games"),
+    Transaction(
+        id: 4,
+        amount: 13.50,
+        date: DateTime.now().subtract(Duration(days: 3)),
+        name: "Rent"),
   ];
 
-  void addTransaction() {
+  void getRequiredFilteredData() {
+    var last7Days = [];
+    for (var i = 0; i < 7; i++) {
+      last7Days
+          .add(DateTrans(DateTime.now().subtract(Duration(days: i)), 0.00));
+    }
+    for (var j = 0; j < this.transactions.length; j++) {
+      var transaction = this.transactions[j];
+      for (var k = 0; k < last7Days.length; k++) {
+        var finalTotal = 0.00;
+        if (transaction.date.day == last7Days[k].date.day &&
+            transaction.date.month == last7Days[k].date.month &&
+            transaction.date.year == last7Days[k].date.year) {
+          finalTotal = finalTotal + transaction.amount;
+          last7Days[k] = DateTrans(last7Days[k].date, finalTotal);
+        }
+      }
+    }
+
+    var total = 0.00;
+    for (var x = 0; x < last7Days.length; x++) {
+      print(total);
+      total = total + last7Days[x].transactions;
+    }
+    setState(() {
+      sevenDaysTrans = last7Days.reversed;
+      lastWeekTotal = total;
+    });
+  }
+
+  void addTransaction(DateTime x) {
     setState(() {
       transactions.add(Transaction(
-          id: 11,
+          id: this.transactions.length + 1,
           amount: double.parse(valueController.text.toString()),
-          date: DateTime.now(),
+          date: x,
           name: nameController.text.toString()));
     });
 
@@ -67,7 +125,11 @@ class _MyAppState extends State<MyApp> {
           padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
           child: Container(
             padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
-            child: Add(nameController, valueController, addTransaction),
+            child: Add(
+              nameController,
+              valueController,
+              addTransaction,
+            ),
           ),
         );
       },
@@ -76,6 +138,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    getRequiredFilteredData();
+    print(lastWeekTotal);
     return Scaffold(
       appBar: AppBar(
         title: Text('Cent'),
@@ -98,7 +162,7 @@ class _MyAppState extends State<MyApp> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Container(
                 padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: Card(
@@ -109,20 +173,18 @@ class _MyAppState extends State<MyApp> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Bar(20),
-                        Bar(30),
-                        Bar(40),
-                        Bar(50),
-                        Bar(10),
-                        Bar(80),
-                        Bar(100),
+                        for (var tran in sevenDaysTrans)
+                          Bar(
+                              (tran.transactions / lastWeekTotal) * 100,
+                              DateFormat.E().format(tran.date),
+                              tran.transactions)
                       ],
                     ),
                   ),
                 ),
               ),
             ),
-            Expanded(flex: 6, child: UserTransaction(this.transactions)),
+            Expanded(flex: 7, child: UserTransaction(this.transactions)),
           ],
         ),
       ),
