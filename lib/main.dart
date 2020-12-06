@@ -140,6 +140,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     getRequiredFilteredData();
     print(lastWeekTotal);
+    print(MediaQuery.of(context).orientation);
     return Scaffold(
       appBar: AppBar(
         title: Text('Cent'),
@@ -162,7 +163,9 @@ class _MyAppState extends State<MyApp> {
           mainAxisSize: MainAxisSize.max,
           children: [
             Expanded(
-              flex: 3,
+              flex: MediaQuery.of(context).orientation == Orientation.landscape
+                  ? 7
+                  : 3,
               child: Container(
                 padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
                 child: Card(
