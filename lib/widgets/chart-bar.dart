@@ -29,47 +29,51 @@ class Bar extends StatelessWidget {
             Expanded(
               flex: 8,
               child: Container(
-                width: 25,
-                child: Stack(
-                  alignment: AlignmentDirectional.bottomCenter,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                      ),
+                width: 20,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(5),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
-                        ),
+                  ),
+                  child: Stack(
+                    alignment: AlignmentDirectional.bottomCenter,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.blue[100],
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
                       ),
-                      child: new LayoutBuilder(builder:
-                          (BuildContext context, BoxConstraints constraints) {
-                        return FractionallySizedBox(
-                          heightFactor: 1,
-                          child: Container(
-                            margin: EdgeInsets.fromLTRB(
-                                0,
-                                (constraints.maxHeight / 100) *
-                                    (100 - this.percent),
-                                0,
-                                0),
-                            decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: Container(
+                          child: new LayoutBuilder(builder:
+                              (BuildContext context,
+                                  BoxConstraints constraints) {
+                            return Container(
+                              child: FractionallySizedBox(
+                                heightFactor: 1,
+                                child: Container(
+                                  margin: EdgeInsets.fromLTRB(
+                                      0,
+                                      (constraints.maxHeight / 100) *
+                                          (100 - this.percent),
+                                      0,
+                                      0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(5),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  ],
+                            );
+                          }),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
