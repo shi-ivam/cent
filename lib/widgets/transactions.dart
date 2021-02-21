@@ -4,8 +4,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 
 class Transactions extends StatelessWidget {
   final List transactions;
+  final Function handleDelete;
 
-  Transactions(this.transactions);
+  Transactions(this.transactions, this.handleDelete);
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,9 @@ class Transactions extends StatelessWidget {
                 color: Colors.black,
                 size: 30,
               ),
-              onPressed: null,
+              onPressed: () {
+                this.handleDelete(this.transactions[index].id);
+              },
               padding: EdgeInsets.zero,
             ),
           ),

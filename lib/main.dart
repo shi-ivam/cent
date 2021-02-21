@@ -50,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   var sevenDaysTrans;
   var pickedDate = new DateTime.now();
 
-  final List<Transaction> transactions = [
+  List<Transaction> transactions = [
     Transaction(
         id: 1,
         amount: 19.53,
@@ -72,6 +72,14 @@ class _MyAppState extends State<MyApp> {
         date: DateTime.now().subtract(Duration(days: 3)),
         name: "Rent"),
   ];
+
+  void handleDelete(id) {
+    List newTrans =
+        this.transactions.where((element) => element.id != id).toList();
+    setState(() {
+      transactions = newTrans;
+    });
+  }
 
   void getRequiredFilteredData() {
     var last7Days = [];
@@ -139,8 +147,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     getRequiredFilteredData();
-    print(lastWeekTotal);
-    print(MediaQuery.of(context).orientation);
     return Scaffold(
       appBar: AppBar(
         title: Text('Cent'),
@@ -173,21 +179,34 @@ class _MyAppState extends State<MyApp> {
                   child: Container(
                     padding: EdgeInsets.fromLTRB(0, 20, 0, 20),
                     width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        for (var tran in sevenDaysTrans)
-                          Bar(
-                              (tran.transactions / lastWeekTotal) * 100,
-                              DateFormat.E().format(tran.date),
-                              tran.transactions)
-                      ],
-                    ),
+                    child: this.transactions.length == 0
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              for (var tran in sevenDaysTrans)
+                                Bar(
+                                    (0 / 100) * 100,
+                                    DateFormat.E().format(tran.date),
+                                    tran.transactions)
+                            ],
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              for (var tran in sevenDaysTrans)
+                                Bar(
+                                    (tran.transactions / lastWeekTotal) * 100,
+                                    DateFormat.E().format(tran.date),
+                                    tran.transactions)
+                            ],
+                          ),
                   ),
                 ),
               ),
             ),
-            Expanded(flex: 7, child: UserTransaction(this.transactions)),
+            Expanded(
+                flex: 7,
+                child: UserTransaction(this.transactions, this.handleDelete)),
           ],
         ),
       ),

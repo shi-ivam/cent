@@ -78,17 +78,21 @@ class Bar extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
               child: Column(
                 children: [
                   Text(
                     this.day,
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15),
+                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                   ),
-                  Text(
-                    getValue(),
-                    style: TextStyle(fontWeight: FontWeight.w400, fontSize: 14),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+                  //   child: Text(
+                  //     getValue(),
+                  //     style:
+                  //         TextStyle(fontWeight: FontWeight.w400, fontSize: 9),
+                  //   ),
+                  // ),
                 ],
               ),
             )

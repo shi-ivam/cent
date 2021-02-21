@@ -3,7 +3,8 @@ import 'transactions.dart';
 
 class UserTransaction extends StatefulWidget {
   final List transactions;
-  UserTransaction(this.transactions);
+  final Function handleDelete;
+  UserTransaction(this.transactions, this.handleDelete);
   @override
   _UserTransactionState createState() => _UserTransactionState();
 }
@@ -13,7 +14,7 @@ class _UserTransactionState extends State<UserTransaction> {
   Widget build(BuildContext context) {
     return Container(
       height: 400,
-      child: Transactions(widget.transactions),
+      child: Transactions(widget.transactions, widget.handleDelete),
     );
   }
 }
